@@ -1,4 +1,93 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541015
+AD-SOYAD:Hasan Kara
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+ALGORİTMA MarketEnvanteriKategorilereAyir
+
+    BAŞLA
+
+    // 1. Gerekli veri yapıları oluştur
+    KATEGORİLER ← ["GIDA", "İÇECEK", "TEMİZLİK", "KİŞİSEL BAKIM", "DİĞER"]
+    GIDA_LISTESİ ← []
+    İÇECEK_LISTESİ ← []
+    TEMİZLİK_LISTESİ ← []
+    KİŞİSEL_BAKIM_LISTESİ ← []
+    DİĞER_LISTESİ ← []
+
+    // 2. Ürün listesini kullanıcıdan veya veri tabanından al
+    ÜRÜNLER ← [
+        {"isim": "Elma", "tür": "Gıda"},
+        {"isim": "Kola", "tür": "İçecek"},
+        {"isim": "Deterjan", "tür": "Temizlik"},
+        {"isim": "Şampuan", "tür": "Kişisel Bakım"},
+        {"isim": "Pil", "tür": "Diğer"}
+    ]
+
+    // 3. Her ürün için kategoriyi belirle
+    HER ürün İÇİN ÜRÜNLER LİSTESİNDE TEKRARLA:
+        EĞER ürün.tür == "Gıda" İSE
+            GIDA_LISTESİ'NE EKLE(ürün.isim)
+        DEĞİLSE EĞER ürün.tür == "İçecek" İSE
+            İÇECEK_LISTESİ'NE EKLE(ürün.isim)
+        DEĞİLSE EĞER ürün.tür == "Temizlik" İSE
+            TEMİZLİK_LISTESİ'NE EKLE(ürün.isim)
+        DEĞİLSE EĞER ürün.tür == "Kişisel Bakım" İSE
+            KİŞİSEL_BAKIM_LISTESİ'NE EKLE(ürün.isim)
+        DEĞİLSE
+            DİĞER_LISTESİ'NE EKLE(ürün.isim)
+        SON
+
+    SON TEKRARLA
+
+    // 4. Sonuçları ekrana yazdır
+    YAZ("=== KATEGORİLERE GÖRE ENVANTER ===")
+    YAZ("Gıda Ürünleri:", GIDA_LISTESİ)
+    YAZ("İçecek Ürünleri:", İÇECEK_LISTESİ)
+    YAZ("Temizlik Ürünleri:", TEMİZLİK_LISTESİ)
+    YAZ("Kişisel Bakım Ürünleri:", KİŞİSEL_BAKIM_LISTESİ)
+    YAZ("Diğer Ürünler:", DİĞER_LISTESİ)
+
+    // 5. Kontrol: Eğer bir kategori boşsa uyarı ver
+    HER kategori İÇİN KATEGORİLER LİSTESİNDE TEKRARLA:
+        EĞER kategoriye ait liste BOŞ İSE
+            YAZ(kategori, " kategorisinde ürün bulunamadı.")
+        SON
+    SON TEKRARLA
+
+    // 6. Döngüyle kullanıcıya yeni ürün ekleme seçeneği sun
+    TEKRARLA
+        YAZ("Yeni ürün eklemek ister misiniz? (E/H)")
+        CEVAP ← GİRİŞ()
+        EĞER CEVAP == "E" İSE
+            YAZ("Ürün adı:")
+            YENİ_İSİM ← GİRİŞ()
+            YAZ("Ürün türü:")
+            YENİ_TÜR ← GİRİŞ()
+
+            // Yeni ürünü doğru kategoriye ekle
+            EĞER YENİ_TÜR == "Gıda" İSE
+                GIDA_LISTESİ'NE EKLE(YENİ_İSİM)
+            DEĞİLSE EĞER YENİ_TÜR == "İçecek" İSE
+                İÇECEK_LISTESİ'NE EKLE(YENİ_İSİM)
+            DEĞİLSE EĞER YENİ_TÜR == "Temizlik" İSE
+                TEMİZLİK_LISTESİ'NE EKLE(YENİ_İSİM)
+            DEĞİLSE EĞER YENİ_TÜR == "Kişisel Bakım" İSE
+                KİŞİSEL_BAKIM_LISTESİ'NE EKLE(YENİ_İSİM)
+            DEĞİLSE
+                DİĞER_LISTESİ'NE EKLE(YENİ_İSİM)
+            SON
+
+        DEĞİLSE
+            ÇIK TEKRARDAN
+        SON
+    SON TEKRARLA
+
+    // 7. Güncel kategorileri göster
+    YAZ("GÜNCELLENMİŞ ENVANTER:")
+    YAZ(GIDA_LISTESİ, İÇECEK_LISTESİ, TEMİZLİK_LISTESİ, KİŞİSEL_BAKIM_LISTESİ, DİĞER_LISTESİ)
+
+    BİTİR
+
+SON ALGORİTMA
+
+https://chatgpt.com/share/68e2a053-3348-8000-a261-248504c12d13
