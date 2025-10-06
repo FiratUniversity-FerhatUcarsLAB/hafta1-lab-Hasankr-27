@@ -2,71 +2,63 @@
 AD-SOYAD:Hasan Kara
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
-ALGORİTMA: MükemmelOmletYap
+Algoritma MükemmelOmletYap
 
-BAŞLA
-    // 1. Malzemeleri tanımla
-    YumurtaSayısı ← 3
-    TuzMiktarı ← 1 çay kaşığı
-    YağMiktarı ← 1 yemek kaşığı
-    PişmeDerecesi ← "orta"
-    OmletKarışımı ← boş
-    OmletYanmadı ← DOĞRU
+Başla
 
-    // 2. Malzeme kontrolü
-    Eğer YumurtaSayısı < 2 ise
-        Yaz("Omlet yapmak için en az 2 yumurta gerekir.")
-        DUR
-    SonEğer
+1. Malzemeleri Hazırla:
+    yumurtaSayisi <- 2  // İsteğe göre artırılabilir
+    sütMiktari <- 2 yemek kaşığı
+    tuzMiktari <- 1 çay kaşığı
+    karabiberMiktari <- 1 tutam
+    tereyağıMiktari <- 1 yemek kaşığı
+    istegeBagliMalzemeler <- ["peynir", "domates", "biber", "mantar"] // opsiyonel
 
-    // 3. Karıştırma işlemi
-    Yaz("Yumurtaları kır ve kaseye koy.")
-    için i ← 1’den YumurtaSayısı’na kadar TEKRARLA
-        Yaz("Yumurta #" + i + " kırıldı.")
-    SonTekrarla
+2. Yumurtaları Hazırla ve Çırp:
+    kase <- Temiz kase
+    yumurtalari kaseyeKır(yumurtaSayisi)
+    sütüEkle(sütMiktari)
+    tuzuEkle(tuzMiktari)
+    karabiberiEkle(karabiberMiktari)
 
-    Yaz(TuzMiktarı + " tuz ekle ve iyice çırp.")
-    OmletKarışımı ← "Hazır"
+    tekrarEt <- 0
+    MaksimumÇırpma <- 50  // çok köpüklü olursa
+    while (karisimDüzgünKarıştı == false AND tekrarEt < MaksimumÇırpma)
+        çırp(karisim)
+        tekrarEt <- tekrarEt + 1
+    end while
 
-    // 4. Tavayı hazırlama
-    Yaz("Tavayı ocağa koy.")
-    Yaz(YağMiktarı + " kadar yağı tavaya ekle.")
-    Yaz("Tavayı ısıt.")
-    TavaSıcaklığı ← 0
-    while TavaSıcaklığı < 70 derece TEKRARLA
-        TavaSıcaklığı ← TavaSıcaklığı + 10
-        Yaz("Tava sıcaklığı: " + TavaSıcaklığı)
-    SonWhile
-    Yaz("Yağ ısındı, tava hazır!")
+3. Tavayı Hazırla ve Yağı Isıt:
+    tava <- Orta boy tava
+    eğer (yağEklendiMi == false)
+        tereyagiEkle(tava, tereyağıMiktari)
+        yağEklendiMi <- true
+    end if
+    tavayiIsit(tava, ortaIsı)  // yağ eklenince ısıtılır
 
-    // 5. Pişirme süreci
-    Eğer OmletKarışımı = "Hazır" ise
-        Yaz("Karışımı tavaya dök.")
-        PişmeSüresi ← 0
+4. Yumurtayı Tavaya Dök ve Pişir:
+    yumurtaKarışımıTavaya <- dök(karisim, tava)
+    süre <- 0
+    maxSüre <- 5 dakika  // orta ısıda
+    while (omletPiştiMi == false AND süre < maxSüre)
+        kenarlarıKontrolEt(tava)
+        eğer (kenarlar katılaştıysa AND üstü hala sıvıysa)
+            spatulaIleKenarlarıOrtayaDoğruKatla()
+        end if
+        süre <- süre + 30 saniye
+    end while
 
-        while PişmeSüresi < 5 dakika TEKRARLA
-            PişmeSüresi ← PişmeSüresi + 1
-            Yaz("Omlet pişiyor... " + PişmeSüresi + ". dakika")
+5. Opsiyonel Malzemeleri Ekle:
+    eğer (istegeBagliMalzemeler != boş)
+        malzemeleriSerpiştir(tava, istegeBagliMalzemeler)
+        1 dakika daha pişir()
+    end if
 
-            Eğer PişmeSüresi = 3 dakika ise
-                Yaz("Omleti spatula ile kenarlardan kaldır.")
-            SonEğer
+6. Omleti Servis Et:
+    omletTavadanAl(tava, tabak)
+    isteğeBagliSüsle(tabak)
+    servisEt(tabak)
 
-            Eğer PişmeSüresi > 5 dakika ise
-                OmletYanmadı ← YANLIŞ
-            SonEğer
-        SonWhile
+Bitir
 
-        Eğer OmletYanmadı = DOĞRU ise
-            Yaz("Omlet mükemmel pişti!")
-        Aksi halde
-            Yaz("Omlet yandı! Bir dahaki sefere süreye dikkat et.")
-        SonEğer
-    Aksi halde
-        Yaz("Karışım hazır değil, işlemi başa sar.")
-    SonEğer
-
-    // 6. Servis
-    Yaz("Omleti tabağa al ve afiyetle ye 😋")
-
-BİTİR
+https://chatgpt.com/share/68e23eaa-9bbc-8000-8b4e-9847defb307f
