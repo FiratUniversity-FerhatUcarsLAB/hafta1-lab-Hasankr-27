@@ -2,4 +2,70 @@
 AD-SOYAD:Hasan Kara
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+ALGORİTMA SudokuCoz_Hibrit(tahta)
 
+  FONKSİYON BosHucreBul(tahta):
+      FOR satir 0'dan 8'e kadar:
+          FOR sutun 0'dan 8'e kadar:
+              EĞER tahta[satir][sutun] == 0 İSE:
+                  DÖNDÜR (satir, sutun)
+      DÖNDÜR YOK
+
+  FONKSİYON GecerliMi(tahta, sayi, satir, sutun):
+      // Satır kontrolü
+      EĞER sayi satırda varsa DÖNDÜR YANLIŞ
+      // Sütun kontrolü
+      EĞER sayi sütunda varsa DÖNDÜR YANLIŞ
+      // 3x3 kutu kontrolü
+      basSatir ← (satir // 3) * 3
+      basSutun ← (sutun // 3) * 3
+      FOR i ← basSatir TO basSatir + 2:
+          FOR j ← basSutun TO basSutun + 2:
+              EĞER tahta[i][j] == sayi İSE DÖNDÜR YANLIŞ
+      DÖNDÜR DOĞRU
+
+  FONKSİYON OlasilariBul(tahta, satir, sutun):
+      olasi ← boş liste
+      FOR sayi ← 1 TO 9:
+          EĞER GecerliMi(tahta, sayi, satir, sutun) DOĞRU İSE:
+              olasi'ye ekle(sayi)
+      DÖNDÜR olasi
+
+  FONKSİYON KisitYayilimi(tahta):
+      degisiklik ← DOĞRU
+      WHILE degisiklik DOĞRU:
+          degisiklik ← YANLIŞ
+          FOR satir ← 0 TO 8:
+              FOR sutun ← 0 TO 8:
+                  EĞER tahta[satir][sutun] == 0 İSE:
+                      olasi ← OlasilariBul(tahta, satir, sutun)
+                      EĞER uzunluk(olasi) == 1 İSE:
+                          tahta[satir][sutun] ← olasi[0]
+                          degisiklik ← DOĞRU
+      DÖNDÜR tahta
+
+  // Geri izleme ile kalan boşlukları doldurur
+  FONKSİYON Backtracking(tahta):
+      bos ← BosHucreBul(tahta)
+      EĞER bos YOKSA DÖNDÜR DOĞRU
+      (satir, sutun) ← bos
+      FOR sayi ← 1 TO 9:
+          EĞER GecerliMi(tahta, sayi, satir, sutun) DOĞRU İSE:
+              tahta[satir][sutun] ← sayi
+              EĞER Backtracking(tahta) DOĞRU İSE DÖNDÜR DOĞRU
+              tahta[satir][sutun] ← 0  // Geri dön
+      DÖNDÜR YANLIŞ
+
+  // --- ANA AKIŞ ---
+  // 1. Mantıksal doldurma (kısıt yayılımı)
+  tahta ← KisitYayilimi(tahta)
+
+  // 2. Mantıkla bitmiyorsa geri izleme başlat
+  EĞER Backtracking(tahta) DOĞRU İSE:
+      YAZ "Sudoku başarıyla çözüldü!"
+  DEĞİLSE:
+      YAZ "Geçerli çözüm bulunamadı."
+
+SON
+
+https://chatgpt.com/share/68e38d27-4760-8000-9b91-8830d1bdee96
