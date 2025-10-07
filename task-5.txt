@@ -1,4 +1,125 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541015
+AD-SOYAD:HASAN KARA
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+FONKSIYON Randevu_Al(Müşteri_ID)
+    BASLA
+
+    // 1. Hizmet Seçimi
+    YAZDIR("Lütfen almak istediğiniz hizmeti seçin:")
+    Hizmetleri_Görüntüle(HIZMETLER_LISTESI)
+    OKU Hizmet_ID_Secilen
+    Hizmet_Süresi = Hizmet_Süresi_Bul(Hizmet_ID_Secilen, HIZMETLER_LISTESI)
+
+    // Koşullu Durum: Geçerli Hizmet Kontrolü
+    EĞER Hizmet_Süresi EŞITTIR Boş_DEĞİLSE
+        // 2. Berber Seçimi
+        YAZDIR("Lütfen tercih ettiğiniz berberi seçin:")
+        Berberleri_Görüntüle(BERBERLER_LISTESI)
+        OKU Berber_ID_Secilen
+        Berber_Çalışma_Saatleri = Berber_Saatlerini_Al(Berber_ID_Secilen, BERBERLER_LISTESI)
+        
+        // Koşullu Durum: Geçerli Berber Kontrolü
+        EĞER Berber_Çalışma_Saatleri EŞITTIR Boş_DEĞİLSE
+            
+            // 3. Tarih Seçimi ve Uygun Slot Bulma
+            TEKRARLA
+                YAZDIR("Lütfen randevu almak istediğiniz tarihi (GG-AA-YYYY) girin:")
+                OKU Tarih_Secilen
+                
+                // Koşullu Durum: Geçmiş Tarih Kontrolü
+                EĞER Tarih_Secilen < BUGÜN_Tarihi
+                    YAZDIR("Geçmiş bir tarihe randevu alamazsınız. Lütfen tekrar deneyin.")
+                    SONRAKI_TEKRAR
+                SON
+                
+                YAZDIR("Seçtiğiniz tarihte uygun slotlar aranıyor...")
+                Uygun_Slotlar_Listesi = Slotları_Kontrol_Et(Berber_ID_Secilen, Tarih_Secilen, Berber_Çalışma_Saatleri, Hizmet_Süresi, RANDEVULAR_TABLOSU)
+
+                EĞER UZUNLUK(Uygun_Slotlar_Listesi) > 0
+                    YAZDIR("Uygun randevu saatleri:")
+                    Listeyi_Görüntüle(Uygun_Slotlar_Listesi)
+                    DUR_TEKRARLA
+                DEĞİLSE
+                    YAZDIR("Bu tarihte uygun slot bulunamadı. Lütfen başka bir tarih seçin.")
+                SON
+
+            BITIR_TEKRARLA // Boş slot bulunana kadar tarih sormaya devam eder
+            
+            // 4. Saat Seçimi
+            TEKRARLA
+                YAZDIR("Lütfen uygun saatlerden birini seçin (SS:DD):")
+                OKU Saat_Secilen
+                
+                // Koşullu Durum: Seçilen Saatin Uygun Slotlar Listesinde Olup Olmadığı Kontrolü
+                EĞER Saat_Secilen İÇİNDE Uygun_Slotlar_Listesi
+                    // 5. Randevuyu Kaydetme
+                    YENI_RANDEVU = {Tarih: Tarih_Secilen, Saat: Saat_Secilen, Berber_ID: Berber_ID_Secilen, Müşteri_ID: Müşteri_ID, Hizmet_ID: Hizmet_ID_Secilen}
+                    RANDEVULAR_TABLOSU'na_EKLE(YENI_RANDEVU)
+                    YAZDIR("Randevunuz başarıyla oluşturulmuştur:")
+                    Randevu_Bilgilerini_Görüntüle(YENI_RANDEVU)
+                    DUR_TEKRARLA
+                DEĞİLSE
+                    YAZDIR("Seçilen saat uygun değil veya geçersizdir. Lütfen listeden bir saat seçin.")
+                SON
+            BITIR_TEKRARLA
+            
+        DEĞİLSE
+            YAZDIR("Hata: Seçilen berber bulunamadı.")
+            GERI_DON HATA
+        SON
+        
+    DEĞİLSE
+        YAZDIR("Hata: Seçilen hizmet bulunamadı.")
+        GERI_DON HATA
+    SON
+    
+    GERI_DON BAŞARILI
+    BITIR
+
+
+// -----------------------------------------------------------------------
+
+// Yardımcı Fonksiyon: Slotları Kontrol Et
+// Bu fonksiyon, bir berberin belirli bir tarihte ve hizmet süresine göre boş zamanlarını bulur.
+
+FONKSIYON Slotları_Kontrol_Et(Berber_ID, Tarih, Çalışma_Saatleri, Hizmet_Süresi, Randevular)
+    BASLA
+    Uygun_Slotlar = YENI_LISTE
+    Başlangıç_Saati = Çalışma_Saatleri.Başlangıç
+    Bitiş_Saati = Çalışma_Saatleri.Bitiş
+    Şimdiki_Saat = Başlangıç_Saati
+    
+    // O tarihteki ilgili berberin randevularını al
+    Berberin_Randevuları = Randevuları_Filtrele(Randevular, Berber_ID, Tarih)
+    
+    // Tekrar Eden İşlem: Çalışma saatleri içinde adım adım kontrol et
+    WHILE Şimdiki_Saat + Hizmet_Süresi <= Bitiş_Saati
+        Bitim_Saati_Aday = Şimdiki_Saat + Hizmet_Süresi
+        Slot_Uygun = DOĞRU
+        
+        // Koşullu Durum: Mevcut randevularla çakışma kontrolü
+        HER Randevu İÇİN Berberin_Randevuları
+            Randevu_Bitiş_Saati = Randevu.Saat + Randevu_Süresi_Bul(Randevu.Hizmet_ID)
+            
+            // Eğer yeni slot mevcut bir randevu ile çakışıyorsa (başlangıcı veya bitimi arada kalıyorsa)
+            EĞER (Şimdiki_Saat < Randevu_Bitiş_Saati) VE (Bitim_Saati_Aday > Randevu.Saat)
+                Slot_Uygun = YANLIŞ
+                // Çakışan randevunun hemen bitiminden devam etmeyi dene
+                Şimdiki_Saat = Randevu_Bitiş_Saati
+                SONRAKI_TEKRAR_WHILE
+            SON
+        BITIR_HER
+        
+        // Koşullu Durum: Slot uygunsa listeye ekle
+        EĞER Slot_Uygun EŞITTIR DOĞRU
+            Uygun_Slotlar'a_EKLE(Şimdiki_Saat)
+            // Bir sonraki olası slota geç
+            Şimdiki_Saat = Şimdiki_Saat + (Hizmet_Süresi + MOLALAR_ARASI_SÜRE) // Mola eklenmiş
+        SON
+        
+    BITIR_WHILE
+    
+    GERI_DON Uygun_Slotlar
+    BITIR
+https://g.co/gemini/share/45f1c37a0321
