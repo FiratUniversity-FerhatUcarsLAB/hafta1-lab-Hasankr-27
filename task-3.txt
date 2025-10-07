@@ -1,4 +1,77 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541015
+AD-SOYAD:HASAN KARA
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+ALGORITMA Market_Envanterini_Kategorilere_Ayırma
+
+    // 1. Başla
+    BAŞLA
+
+    // 2. Kategorileri tanımla (boş listeler şeklinde)
+    TANIMLA gida_urunleri ← []
+    TANIMLA icecek_urunleri ← []
+    TANIMLA temizlik_urunleri ← []
+    TANIMLA kisisel_bakim_urunleri ← []
+    TANIMLA diger_urunler ← []
+
+    // 3. Kullanıcıya açıklama yap
+    YAZ "Market envanterini kategorilere ayırma programına hoş geldiniz!"
+    YAZ "Lütfen ürünleri sırayla giriniz."
+    YAZ "Ürün girmeyi bitirmek için 'bitir' yazabilirsiniz."
+
+    // 4. Kullanıcıdan ürün girişini başlat
+    TANIMLA urun ← ""
+    
+    TEKRAR
+        YAZ "Bir ürün adı girin: "
+        OKU urun
+
+        // 5. Kullanıcı 'bitir' yazarsa döngüyü sonlandır
+        EĞER urun = "bitir" İSE
+            ÇIK DÖNGÜDEN
+        DEĞİLSE
+            // 6. Ürünün kategorisini belirlemek için kullanıcıya sor
+            YAZ "Bu ürün hangi kategoriye aittir?"
+            YAZ "1 - Gıda"
+            YAZ "2 - İçecek"
+            YAZ "3 - Temizlik"
+            YAZ "4 - Kişisel Bakım"
+            YAZ "5 - Diğer"
+            OKU kategori_secimi
+
+            // 7. Kullanıcının seçimine göre uygun listeye ekle
+            EĞER kategori_secimi = 1 İSE
+                EKLE urun → gida_urunleri
+            YOKSA EĞER kategori_secimi = 2 İSE
+                EKLE urun → icecek_urunleri
+            YOKSA EĞER kategori_secimi = 3 İSE
+                EKLE urun → temizlik_urunleri
+            YOKSA EĞER kategori_secimi = 4 İSE
+                EKLE urun → kisisel_bakim_urunleri
+            YOKSA EĞER kategori_secimi = 5 İSE
+                EKLE urun → diger_urunler
+            DEĞİLSE
+                YAZ "Geçersiz seçim yaptınız. Ürün kaydedilmedi."
+            BİTİR EĞER
+        BİTİR EĞER
+
+    // 8. Tüm ürünler girildikten sonra döngü sonlanır
+    SON TEKRAR
+
+    // 9. Sonuçları ekrana yazdır
+    YAZ "--------------------------------------------"
+    YAZ "KATEGORİLERE GÖRE ÜRÜN LİSTESİ"
+    YAZ "Gıda ürünleri: ", gida_urunleri
+    YAZ "İçecek ürünleri: ", icecek_urunleri
+    YAZ "Temizlik ürünleri: ", temizlik_urunleri
+    YAZ "Kişisel bakım ürünleri: ", kisisel_bakim_urunleri
+    YAZ "Diğer ürünler: ", diger_urunler
+    YAZ "--------------------------------------------"
+
+    // 10. Bitir
+    YAZ "Program başarıyla tamamlandı."
+    BİTİR
+
+SON ALGORITMA
+
+https://chatgpt.com/share/68e538d2-ad64-8000-9f41-40bff5e6b303
