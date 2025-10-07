@@ -1,5 +1,5 @@
 Öğrenci No:250541015
-AD-SOYAD:Hasan Kara
+AD-SOYAD:HASAN KARA
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
 ALGORİTMA SudokuCoz_Hibrit(tahta)
