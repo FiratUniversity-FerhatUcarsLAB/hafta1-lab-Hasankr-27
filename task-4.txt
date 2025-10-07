@@ -1,5 +1,5 @@
-Öğrenci No:
-AD-SOYAD:
+Öğrenci No:250541015
+AD-SOYAD:HASAN KARA
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
 ALGORITMA OtobusRotaOptimizasyonu
