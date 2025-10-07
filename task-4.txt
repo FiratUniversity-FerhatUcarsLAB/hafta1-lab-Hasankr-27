@@ -2,3 +2,59 @@
 AD-SOYAD:
 
 Lütfen seçtiğiniz algoritmaya ait çözümü ve diğer isterleri aşağıya ekleyiniz:
+ALGORITMA OtobusRotaOptimizasyonu
+    GİRİŞ:
+        DurakListesi ← [D1, D2, D3, ..., Dn]       // Ziyaret edilecek duraklar
+        MesafeMatrisi[n][n]                        // Duraklar arası mesafeleri gösterir
+        BaslangicDuragi ← D1                       // Rota başlangıç noktası
+    ÇIKIŞ:
+        EnKisaRota ← Durak sırası listesi
+        EnKisaMesafe ← Toplam mesafe değeri
+
+    ADIM 1: Başlangıç ayarları
+        ZiyaretEdilenDuraklar ← [BaslangicDuragi]
+        MevcutDurak ← BaslangicDuragi
+        EnKisaMesafe ← ∞
+        EnKisaRota ← boş liste
+
+    ADIM 2: Tüm olası rotaları oluştur
+        FONKSİYON TumRotalariOlustur(DurakListesi)
+            EĞER DurakListesi uzunluğu = 1 İSE
+                GERİ DÖN [DurakListesi]
+            SON
+            Rotalar ← boş liste
+            HER durak ∈ DurakListesi için
+                KalanDuraklar ← DurakListesi - durak
+                AltRotalar ← TumRotalariOlustur(KalanDuraklar)
+                HER altRota ∈ AltRotalar için
+                    Rotalar ← Rotalar + [durak + altRota]
+                SON
+            SON
+            GERİ DÖN Rotalar
+        SON FONKSİYON
+
+    ADIM 3: Tüm rotaları dene ve toplam mesafeyi hesapla
+        TumRotalar ← TumRotalariOlustur(DurakListesi - BaslangicDuragi)
+
+        HER rota ∈ TumRotalar için
+            ToplamMesafe ← 0
+            MevcutDurak ← BaslangicDuragi
+            HER sonrakiDurak ∈ rota için
+                ToplamMesafe ← ToplamMesafe + MesafeMatrisi[MevcutDurak][sonrakiDurak]
+                MevcutDurak ← sonrakiDurak
+            SON
+            // Başlangıç noktasına geri dönülüyorsa ekle:
+            ToplamMesafe ← ToplamMesafe + MesafeMatrisi[MevcutDurak][BaslangicDuragi]
+
+            EĞER ToplamMesafe < EnKisaMesafe İSE
+                EnKisaMesafe ← ToplamMesafe
+                EnKisaRota ← [BaslangicDuragi] + rota + [BaslangicDuragi]
+            SON
+        SON
+
+    ADIM 4: Sonuçları göster
+        YAZ "En kısa rota: ", EnKisaRota
+        YAZ "Toplam mesafe: ", EnKisaMesafe
+SON ALGORITMA
+
+https://chatgpt.com/share/68e53a0e-e618-8000-971e-37aede2ff7ed
